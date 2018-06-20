@@ -8,10 +8,10 @@
       <LauncherProjectName>Engine.Launcher</LauncherProjectName>
     </PropertyGroup>
 
-    <Message Text="Copying Project Publish Assets from $$(BinDir)\$(Configuration)\$(LauncherProjectName)\netcoreapp1.1\$(RuntimeIdentifier)\publish\ into $(ProjectPublishItemsRoot)"  />
+    <Message Text="Copying Project Publish Assets from $$(BinDir)\$(Configuration)\$(LauncherProjectName)\net6.0\$(RuntimeIdentifier)\publish\ into $(ProjectPublishItemsRoot)"  />
 
     <ItemGroup>
-      <LauncherItems Include="$(BinDir)\$(Configuration)\$(LauncherProjectName)\netcoreapp1.1\$(RuntimeIdentifier)\publish\*" />
+      <LauncherItems Include="$(BinDir)\$(Configuration)\$(LauncherProjectName)\net6.0\$(RuntimeIdentifier)\publish\*" />
     </ItemGroup>
 
     <Copy SourceFiles="@(LauncherItems)" DestinationFolder="$(OutputPath)/PublishItems/$(RuntimeIdentifier)" />

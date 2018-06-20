@@ -18,9 +18,8 @@ namespace Engine
 {
     public static class Program
     {
-        public static int Main(string[] args)
+        public static int Main(bool opengl = false, EngineLaunchOptions.AudioEnginePreference? audio = null)
         {
-            EngineLaunchOptions launchOptions = new EngineLaunchOptions(args);
 
             ProjectManifest projectManifest;
             string currentDir = AppContext.BaseDirectory;
@@ -102,7 +101,7 @@ namespace Engine
             game.SystemRegistry.Register(sls);
             sls.AfterSceneLoaded += () => game.ResetDeltaTime();
 
-            EngineLaunchOptions.AudioEnginePreference? audioPreference = launchOptions.AudioPreference;
+            var audioPreference = audio;
             AudioEngineOptions audioEngineOptions =
                 !audioPreference.HasValue ? AudioEngineOptions.Default
                 : audioPreference == EngineLaunchOptions.AudioEnginePreference.None ? AudioEngineOptions.UseNullAudio

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CommandLine;
+using System.CommandLine.Invocation;
 
 namespace Engine.Editor
 {
@@ -17,22 +18,20 @@ namespace Engine.Editor
 
         public CommandLineOptions(string[] args)
         {
-            ArgumentSyntax.Parse(args, syntax =>
-            {
-                syntax.ApplicationName = "Editor";
-                syntax.DefineOption("opengl", ref _preferOpenGL, "Prefer using the OpenGL rendering backend.");
-                syntax.DefineOption("project|p", ref _project, "Specifies the project to open.");
-                syntax.DefineOption("scene|s", ref _scene, "Specifies the scene to open.");
-                syntax.DefineOption(
-                    "audio",
-                    ref _audioPreference,
-                    s => (AudioEnginePreference)Enum.Parse(typeof(AudioEnginePreference), s, true),
-                    "Specifies the audio engine to use.");
-            });
-        }
-
-        public CommandLineOptions()
-        {
+            var rootCommand = new RootCommand {
+                new Option<bool>("--opengl", description: "Prefer using the OpenGL rendering backend."),
+                new Option<string>(new[] { "--project", "-p" }, "Specifies the project to open."),
+                new Option<string>(new[] { "--scene", "-s" }, "Specifies the scene to open."),
+                new Option<AudioEnginePreference>("audio", "Specifies the audio engine to use.")
+            };
+            rootCommand.Handler = CommandHandler.Create<bool, string, string, AudioEnginePreference>(
+                (preferOpenGL, project, scene, audioPreference) => {
+                    _preferOpenGL = preferOpenGL;
+                    _project = project;
+                    _scene = scene;
+                    _audioPreference = audioPreference;
+                });
+            rootCommand.Invoke(args);
         }
 
         public enum AudioEnginePreference

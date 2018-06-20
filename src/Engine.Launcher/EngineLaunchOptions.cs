@@ -11,27 +11,9 @@ namespace Engine
         public bool PreferOpenGL => _preferOpenGL;
         public AudioEnginePreference? AudioPreference => _audioPreference;
 
-        public EngineLaunchOptions(string[] args)
+        public EngineLaunchOptions(bool opengl = false, AudioEnginePreference? audio = null)
         {
-            ArgumentSyntax.Parse(args, syntax =>
-            {
-                syntax.ApplicationName = "Editor";
-                syntax.DefineOption("opengl", ref _preferOpenGL, "Prefer using the OpenGL rendering backend.");
-                syntax.DefineOption(
-                    "audio",
-                    ref _audioPreference,
-                    s =>
-                    {
-                        AudioEnginePreference pref;
-                        if (!Enum.TryParse(s, true, out pref))
-                        {
-                            pref = AudioEnginePreference.Default;
-                        }
-
-                        return pref;
-                    },
-                    "Prefer using the OpenGL rendering backend.");
-            });
+            
         }
 
         public enum AudioEnginePreference
